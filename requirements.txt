@@ -1,6 +1,5 @@
 alembic==1.6.5
 click==8.0.1
-dataclasses==0.8
 Flask==2.0.1
 flask-marshmallow==0.14.0
 Flask-Migrate==3.0.1

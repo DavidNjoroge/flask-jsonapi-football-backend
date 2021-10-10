@@ -1,51 +1,16 @@
-# Import the database object (db) from the main application module
-# We will define this inside /app/__init__.py in the next sections.
-from sqlalchemy import Column, BigInteger, String, Date, ForeignKey
+# coding: utf-8
+from sqlalchemy import BigInteger, Column, Date, ForeignKey, Integer, String, text
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
-from app import db
-
-
-# Define a base model for other database tables to inherit
-class Base(db.Model):
-    __abstract__ = True
-
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
-                              onupdate=db.func.current_timestamp())
-
-
-# Define a User model
-class User(Base):
-    __tablename__ = 'auth_user'
-
-    # User Name
-    name = db.Column(db.String(128), nullable=False)
-
-    # Identification Data: email & password
-    email = db.Column(db.String(128), nullable=False,
-                      unique=True)
-    password = db.Column(db.String(192), nullable=False)
-
-    # Authorisation Data: role & status
-    role = db.Column(db.SmallInteger, nullable=False)
-    status = db.Column(db.SmallInteger, nullable=False)
-
-    # New instance instantiation procedure
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
-
-    def __repr__(self):
-        return '<User %r>' % (self.name)
+Base = declarative_base()
+metadata = Base.metadata
 
 
 class League(Base):
     __tablename__ = 'league'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('league_id_seq'::regclass)"))
     description = Column(String(255))
     max_teams = Column(BigInteger)
     name = Column(String(255), nullable=False)
@@ -54,7 +19,7 @@ class League(Base):
 class Player(Base):
     __tablename__ = 'player'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('player_id_seq'::regclass)"))
     date_of_birth = Column(Date)
     name = Column(String(255), nullable=False)
     preferred_position = Column(String(255))
@@ -64,7 +29,7 @@ class Player(Base):
 class Season(Base):
     __tablename__ = 'season'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('season_id_seq'::regclass)"))
     end_year = Column(Date, nullable=False)
     start_year = Column(Date, nullable=False)
 
@@ -72,7 +37,7 @@ class Season(Base):
 class Team(Base):
     __tablename__ = 'team'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('team_id_seq'::regclass)"))
     date_founded = Column(Date)
     location = Column(String(255))
     manager = Column(String(255))
@@ -82,10 +47,10 @@ class Team(Base):
 class LeagueTeam(Base):
     __tablename__ = 'league_team'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('league_team_id_seq'::regclass)"))
     date_joined = Column(Date)
-    league_id = Column(ForeignKey('league.id'), nullable=False)
-    season_id = Column(ForeignKey('season.id'), nullable=False)
+    league_id = Column(ForeignKey('league.id'), nullable=False, server_default=text("nextval('league_team_league_id_seq'::regclass)"))
+    season_id = Column(ForeignKey('season.id'), nullable=False, server_default=text("nextval('league_team_season_id_seq'::regclass)"))
     team_id = Column(ForeignKey('team.id'), nullable=False)
 
     league = relationship('League')
@@ -96,7 +61,7 @@ class LeagueTeam(Base):
 class TeamPlayer(Base):
     __tablename__ = 'team_player'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('team_player_id_seq'::regclass)"))
     date_joined = Column(Date)
     player_id = Column(ForeignKey('player.id'), nullable=False)
     team_id = Column(ForeignKey('team.id'), nullable=False)
@@ -108,7 +73,7 @@ class TeamPlayer(Base):
 class Fixture(Base):
     __tablename__ = 'fixture'
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, server_default=text("nextval('fixture_id_seq'::regclass)"))
     away_score = Column(BigInteger)
     fixture_date = Column(Date, nullable=False)
     fixture_time = Column(String(255))

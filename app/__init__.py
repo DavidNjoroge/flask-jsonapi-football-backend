@@ -2,6 +2,7 @@
 from flask import Flask
 
 # Define the WSGI application object
+from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restless import APIManager
@@ -30,7 +31,7 @@ def create_app():
     migrate.init_app(app=app, db=db)
     ma.init_app(app)
     manager.init_app(app, flask_sqlalchemy_db=db)
-
+    CORS(app)
     with app.app_context():
         from app.main.routes import mod_main as main_module
 
