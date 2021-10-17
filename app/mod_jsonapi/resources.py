@@ -1,8 +1,8 @@
 from flask_rest_jsonapi import ResourceList
 
 from app import db
-from app.main.models import League, Fixture
-from app.mod_jsonapi.schemas import LeagueSchema, FixtureSchema
+from app.main.models import League, Fixture, Season, Team
+from app.mod_jsonapi.schemas import LeagueSchema, FixtureSchema, SeasonSchema, TeamSchema
 
 
 class LeagueList(ResourceList):
@@ -41,4 +41,36 @@ class FixtureDetail(ResourceList):
     schema = FixtureSchema
     data_layer = {'session': db.session,
                   'model': Fixture,
+                  }
+
+
+class SeasonList(ResourceList):
+    methods = ['GET', 'POST']
+    schema = SeasonSchema
+    data_layer = {'session': db.session,
+                  'model': Season,
+                  # 'methods': {'query': query}
+                  }
+
+
+class SeasonDetail(ResourceList):
+    schema = SeasonSchema
+    data_layer = {'session': db.session,
+                  'model': Season,
+                  }
+
+
+class TeamList(ResourceList):
+    methods = ['GET', 'POST']
+    schema = TeamSchema
+    data_layer = {'session': db.session,
+                  'model': Team,
+                  # 'methods': {'query': query}
+                  }
+
+
+class TeamDetail(ResourceList):
+    schema = TeamSchema
+    data_layer = {'session': db.session,
+                  'model': Team,
                   }

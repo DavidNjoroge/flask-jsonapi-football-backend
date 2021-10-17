@@ -38,3 +38,31 @@ class FixtureSchema(Schema):
     results = fields.Str()
     away_id = fields.Str()
     home_id = fields.Str()
+
+
+class SeasonSchema(Schema):
+    class Meta:
+        type_ = 'season'
+        self_view = 'rest_api.season_detail'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'rest_api.season_list'
+
+    id = fields.Integer(as_string=True, dump_only=True)
+    end_year = fields.Str()
+    start_year = fields.Str()
+    # description = fields.Str()
+    # max_teams = fields.Integer()
+
+
+class TeamSchema(Schema):
+    class Meta:
+        type_ = 'team'
+        self_view = 'rest_api.team_detail'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'rest_api.team_list'
+
+    id = fields.Integer(as_string=True, dump_only=True)
+    date_founded = fields.Str()
+    location = fields.Str()
+    name = fields.Str()
+    manager = fields.Str()
