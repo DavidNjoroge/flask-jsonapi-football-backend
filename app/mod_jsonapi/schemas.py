@@ -1,3 +1,4 @@
+from marshmallow_jsonapi.fields import Relationship
 from marshmallow_jsonapi.flask import Schema
 from marshmallow_jsonapi import fields
 
@@ -38,6 +39,22 @@ class FixtureSchema(Schema):
     results = fields.Str()
     away_id = fields.Str()
     home_id = fields.Str()
+    home = Relationship(attribute='home',
+                         self_view='fixture_team',
+                         self_view_kwargs={'id': '<id>'},
+                         related_view='league_team_detail',
+                         # related_view_kwargs={'home_id': '<id>'},
+                         schema='LeagueTeamSchema',
+                         type_='league_team')
+
+    away = Relationship(attribute='away',
+                         self_view='fixture_team',
+                         self_view_kwargs={'id': '<id>'},
+                         related_view='league_team_detail',
+                         schema='LeagueTeamSchema',
+                         type_='league_team')
+
+
 
 
 class SeasonSchema(Schema):
@@ -66,3 +83,35 @@ class TeamSchema(Schema):
     location = fields.Str()
     name = fields.Str()
     manager = fields.Str()
+
+
+class LeagueTeamSchema(Schema):
+    class Meta:
+        type_ = 'league_team'
+        self_view = 'rest_api.league_team_detail'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'rest_api.league_team_list'
+
+    id = fields.Integer(as_string=True, dump_only=True)
+    date_joined = fields.Str()
+    league_id = fields.Integer()
+    season_id = fields.Integer()
+    team_id = fields.Integer()
+
+    team = Relationship(attribute='team',
+                         self_view='league_team_to_team',
+                         self_view_kwargs={'id': '<id>'},
+                         related_view='team_detail',
+                         schema='TeamSchema',
+                         type_='team')
+
+
+
+    league = Relationship(attribute='league',
+                         self_view='league_team_to_league',
+                         self_view_kwargs={'id': '<id>'},
+                         related_view='league_detail',
+                         schema='LeagueSchema',
+                         type_='league')
+
+
