@@ -1,4 +1,6 @@
 # Import flask and template operators
+import os
+
 from flask import Flask
 
 # Define the WSGI application object
@@ -10,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Define the database object which is imported
 # by modules and controllers
-from config import DefaultConfig
+from config import DefaultConfig, HerokuConfig
 from flask_rest_jsonapi import Api as JsonApi
 
 db = SQLAlchemy()
@@ -28,7 +30,14 @@ jsonApi = JsonApi()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(DefaultConfig)
+
+    # os.environ['DATABASE_URL']
+    config_name = os.environ.get('ENVIRONMENT', None)
+
+    if config_name and config_name == 'HEROKU':
+        app.config.from_object(HerokuConfig)
+    else:
+        app.config.from_object(DefaultConfig)
 
     db.init_app(app)
     migrate.init_app(app=app, db=db)
