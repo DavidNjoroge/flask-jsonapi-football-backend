@@ -1,13 +1,10 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
+from flask_json_schema import JsonValidationError
 
 mod_errors = Blueprint('errors', __name__)
 
-# not working
-@mod_errors.errorhandler(Exception)
-def uncaught_errors(error):
-    return {"message": 500}, 500
 
-
-@mod_errors.errorhandler(404)
-def not_found(error):
-    return {"message": 404}, 404
+@mod_errors.app_errorhandler(JsonValidationError)
+def validation_error(e):
+    return jsonify(
+        {'error': e.message, 'errors': [validation_error.message for validation_error in e.errors]}), 400

@@ -113,7 +113,7 @@ class Fixture(Base):
     fixture_date = Column(Date, nullable=False)
     fixture_time = Column(String(255))
     home_score = Column(BigInteger)
-    match_week = Column(BigInteger, nullable=False)
+    match_week = Column(BigInteger)
     results = Column(String(255))
     away_id = Column(ForeignKey('league_team.id'), nullable=False)
     home_id = Column(ForeignKey('league_team.id'), nullable=False)

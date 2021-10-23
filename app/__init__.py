@@ -5,6 +5,7 @@ from flask import Flask
 
 # Define the WSGI application object
 from flask_cors import CORS
+from flask_json_schema import JsonSchema
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restless import APIManager
@@ -21,6 +22,7 @@ ma = Marshmallow()
 manager = APIManager()
 
 jsonApi = JsonApi()
+schema = JsonSchema()
 
 
 # # Sample HTTP error handling
@@ -44,6 +46,7 @@ def create_app():
     ma.init_app(app)
     manager.init_app(app, flask_sqlalchemy_db=db)
     jsonApi.init_app(app=app)
+    schema.init_app(app)
 
     CORS(app)
     with app.app_context():
