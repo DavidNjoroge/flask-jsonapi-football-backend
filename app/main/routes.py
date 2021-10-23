@@ -92,8 +92,8 @@ def create_fixture(season_id, league_id):
     existing_fixture = fixtureModService.find_fixture(home_league_team=home_league_team, away_league_team=away_league_team, fixture_date=parsed_fixture_date)
 
     # todo create table constraint
-    if existing_fixture is not None:
-        return jsonify({"message": "fixture already exists"}), 400
+    # if existing_fixture is not None:
+    #     return jsonify({"message": "fixture already exists"}), 400
     # 4finally create fixture
     new_fixture = fixtureModService.create_fixture(
         home_league_team=home_league_team,

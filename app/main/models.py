@@ -1,6 +1,6 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from sqlalchemy import Column, BigInteger, String, Date, ForeignKey
+from sqlalchemy import Column, BigInteger, String, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from app import db
@@ -107,6 +107,10 @@ class TeamPlayer(Base):
 
 class Fixture(Base):
     __tablename__ = 'fixture'
+
+    __table_args__ = (
+        UniqueConstraint('fixture_date', 'away_id', 'home_id', name='fixture_unique'),
+    )
 
     id = Column(BigInteger, primary_key=True)
     away_score = Column(BigInteger)
