@@ -60,6 +60,4 @@ def create_app():
         from app.mod_jsonapi import rest_api_bp
         app.register_blueprint(rest_api_bp)
 
-        from app.main.models import User
-
         return app

@@ -14,13 +14,6 @@ class LeagueSchema(Schema):
     name = fields.Str()
     description = fields.Str()
     max_teams = fields.Integer()
-    # contracts = Relationship(self_view='rest_api.tenant_contracts',
-    #                          self_view_kwargs={'id': '<id>'},
-    #                          related_view='rest_api.contract_list',
-    #                          related_view_kwargs={'tenant_id': '<id>'},
-    #                          many=True,
-    #                          schema='JsonApiContractSchema',
-    #                          type_='contract')
 
 
 class FixtureSchema(Schema):
@@ -67,8 +60,6 @@ class SeasonSchema(Schema):
     id = fields.Integer(as_string=True, dump_only=True)
     end_year = fields.Str()
     start_year = fields.Str()
-    # description = fields.Str()
-    # max_teams = fields.Integer()
 
 
 class TeamSchema(Schema):

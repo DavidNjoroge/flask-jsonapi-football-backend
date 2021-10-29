@@ -1,12 +1,11 @@
 from flask import Blueprint, current_app
 
 from app import manager
-from app.main.models import User, League, Fixture, TeamPlayer, LeagueTeam, Team, Season, Player
+from app.main.models import League, Fixture, TeamPlayer, LeagueTeam, Team, Season, Player
 
 restless_bp = Blueprint('api', __name__)
 
 
-manager.create_api(User, collection_name='users', methods=['GET', 'POST', 'PUT', 'DELETE'], app=current_app)
 manager.create_api(League, collection_name='leagues', methods=['GET', 'POST', 'PUT', 'DELETE'], app=current_app)
 manager.create_api(Fixture, collection_name='fixtures', methods=['GET', 'POST', 'PUT', 'DELETE'], app=current_app)
 manager.create_api(TeamPlayer, collection_name='teamPlayers', methods=['GET', 'POST', 'PUT', 'DELETE'], app=current_app)

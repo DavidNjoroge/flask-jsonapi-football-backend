@@ -4,14 +4,13 @@ from app.main.helpers import create_save_fixture_response_dict
 from app.main.mod_service.fixture_mod_service import FixtureModService
 from app.main.mod_service.league_team_mod_service import LeagueTeamModService
 from app.main.mod_service.team_mod_service import TeamModService
-from app.main.models import User
 from flask import request, jsonify
-# Define the blueprint: 'auth', set its url prefix: app.url/auth
-from app.main.schemas import UserSchema
+
 
 teamModService = TeamModService.get_instance()
 leagueTeamModService = LeagueTeamModService.get_instance()
 fixtureModService = FixtureModService.get_instance()
+
 
 # Set the route and accepted methods
 @mod_main.route('/', methods=['GET', 'POST'])
@@ -22,11 +21,6 @@ def main_example():
         'results_per_page': 5,
         'total_results': 100
     }
-
-
-@mod_main.route('/users', methods=['GET', 'POST'])
-def fetch_users():
-    return UserSchema(many=True).dumps(User.query.all())
 
 
 create_fixtures_schema = {

@@ -6,7 +6,7 @@ from app import create_app
 def test_get_fixtures():
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/' page is requested (GET)
+    WHEN the '/jsonapi/fixtures' is requested (GET)
     THEN check that the response is valid
     """
     flask_app = create_app()
@@ -18,6 +18,7 @@ def test_get_fixtures():
 
 
 def test_create_fixture_with_new_data():
+    # todo not complete
     flask_app = create_app()
 
     # Create a test client using the Flask application configured for testing
